@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors')
 const Url = require("../models/url.js");
 app.use(express.json());
-
+app.use(express.urlencoded({extended:true}))
 app.use(cors())
 function shorturlPage(req, res) {
     res.send("welcome to url shortener");
@@ -30,4 +30,28 @@ async function createUrl(req, res) {
     }
 }
 
-module.exports = { shorturlPage, createUrl };
+async function getshorturl(req,res){
+    try{
+
+        const shortId = req.params.shortId;
+        const urldoc = await Url.findOne({shortId:shortId})
+        const redirection = urldoc.redirectUrl
+        console.log(redirection)
+        const entry  = await Url.findOneAndUpdate({shortId:shortId},{
+            $push:{
+                numberOfClicks:{
+                    numberOfClicks:Date.now()
+                }
+                        }
+        })
+
+        res.redirect(redirection)
+
+
+    }catch(e){
+        console.log(e);
+    }
+}
+
+
+module.exports = { shorturlPage, createUrl, getshorturl};
