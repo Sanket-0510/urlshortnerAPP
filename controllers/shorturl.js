@@ -53,11 +53,10 @@ async function getshorturl(req, res) {
   }
 }
 
-
-async function getNumberOfClicks(req,res){
-    console.log(req.params.shortId)
-    const doc = await Url.findOne({shortId: req.params.shortId})
-    console.log(doc.numberOfClicks)
-    res.send("number of clicks on the link are "+doc.numberOfClicks.length)
+async function getNumberOfClicks(req, res) {
+  console.log(req.params.shortId);
+  const doc = await Url.findOne({ shortId: req.params.shortId });
+  console.log(doc.numberOfClicks);
+  res.send("number of clicks on the link are " + doc.numberOfClicks.length);
 }
-module.exports = { shorturlPage, createUrl, getshorturl ,getNumberOfClicks};
+module.exports = { shorturlPage, createUrl, getshorturl, getNumberOfClicks };
